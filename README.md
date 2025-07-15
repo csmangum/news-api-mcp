@@ -22,12 +22,14 @@ cd news-api-mcp
 docker build -t mcp/news-api .
 ```
 
-- Change your `claude_desktop_config.json` to match the following, replacing `REPLACE_API_KEY` with your actual News API key:
+- Configure your `claude_desktop_config.json` with your News API key:
 
 > `claude_desktop_config.json` path
 >
 > - On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
 > - On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+
+Replace `your_actual_api_key_here` with your actual News API key:
 
 ```json
 {
@@ -37,16 +39,22 @@ docker build -t mcp/news-api .
       "args": [
         "run",
         "-i",
-        "-e",
-        "NEWS_API_KEY",
+        "--rm",
         "mcp/news-api"
       ],
       "env": {
-        "NEWS_API_KEY": "REPLACE_API_KEY"
+        "NEWS_API_KEY": "your_actual_api_key_here"
       }
     }
   }
 }
+```
+
+**Alternative: Using .env file with Docker**
+
+If you prefer to use a `.env` file (see Environment Configuration section above), you can run the container manually:
+```bash
+docker run -i --rm --env-file .env mcp/news-api
 ```
 
 #### Installing via Smithery
@@ -64,6 +72,19 @@ npx -y @smithery/cli install @berlinbra/news-api-mcp --client claude
 ```
 uv install -e .
 ```
+
+#### Environment Configuration
+
+1. Create a `.env` file in the root directory with the following content:
+```bash
+# News API Configuration
+# Get your API key from: https://newsapi.org/
+NEWS_API_KEY=your_actual_api_key_here
+```
+
+2. Replace `your_actual_api_key_here` with your actual News API key.
+
+You can get a free API key from [https://newsapi.org/](https://newsapi.org/).
 
 #### Running
 
